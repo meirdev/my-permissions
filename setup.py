@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 from my_permissions import __version__
 
-URL = "https://github.com/meirdev/properties"
+URL = "https://github.com/meirdev/my-permissions"
 PYTHON_REQUIRES = ">=3.7"
 
 setup(
@@ -11,5 +11,6 @@ setup(
     python_requires=PYTHON_REQUIRES,
     version=__version__,
     packages=find_packages(),
-    entry_points={"console_scripts": ["my_permissions = my_permissions.__main__:main"]},
+    entry_points={"console_scripts": ["mypermissions = my_permissions.__main__:main"]},
+    install_requires=["rich"],
 )

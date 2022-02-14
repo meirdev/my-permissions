@@ -1,7 +1,7 @@
 import os
 import stat
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 READ = "r"
@@ -37,14 +37,12 @@ class MyPermissions:
         return os.access(self._path, os.X_OK)
 
 
-class FullPermissions:
-    def __init__(self, path: str) -> None:
-        self._path = path
+def mode_to_string(mode: int) -> str:
+    result = ""
+    for key, value in PERMISSIONS.items():
+        result += value if mode & key else NONE
+    return result
 
-    def __str__(self) -> str:
-        permissions = os.stat(self._path).st_mode & 0o777
 
-        result = ""
-        for key, value in PERMISSIONS.items():
-            result += value if permissions & key else NONE
-        return result
+def mode(path: str) -> int:
+    return os.stat(path).st_mode & 0o777

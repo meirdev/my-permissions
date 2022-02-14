@@ -1,9 +1,11 @@
 import argparse
 import operator
+import os
+import sys
 
 from rich import print
 
-from . import MyPermissions, FullPermissions
+from . import MyPermissions, mode_to_string, mode
 
 
 def main() -> None:
@@ -19,13 +21,18 @@ def main() -> None:
         "-S",
         "--show",
         action="store_true",
-        help="Show the full permission of the file and exit",
+        help="Show the permission and exit",
     )
 
     args = arg_parser.parse_args()
 
+    if not os.path.exists(args.path):
+        print(f"[red]Path does not exist", file=sys.stderr)
+        sys.exit(1)
+
     if args.show:
-        print(FullPermissions(args.path))
+        path_mode = mode(args.path)
+        print(f"{path_mode:o} = {mode_to_string(path_mode)}")
         return
 
     if args.invert:
@@ -48,5 +55,5 @@ def main() -> None:
             print(f"{start_text} [b]{key}[/b].")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
